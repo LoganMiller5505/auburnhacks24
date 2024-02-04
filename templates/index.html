@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Flare Prediction</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Jura&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Jura', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            text-shadow: 0 5px 15px rgba(139, 0, 0, 0.8);
+            position: relative;
+        }
+
+        .header {
+            background: linear-gradient(to top, #000000, #282521, #2c2924);
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            z-index: 1;
+            position: fixed;
+            top: 0;
+        }
+
+        #happySatelliteImage,
+        #sadSatelliteImage {
+        position: absolute;
+        bottom: -40px; /* Adjust the bottom value as needed */
+        left: 10px; /* Adjust the left value as needed */
+        width: 25%; /* Adjust the width as needed */
+        height: auto;
+        z-index: 1;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 80%;
+            margin: 0px auto 0;
+            z-index: 2;
+            background: linear-gradient(to top, #6c6964 0%, #282521 100%);
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .nav-link {
+            font-family: 'Jura', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            line-height: 2;
+            color: #d1c5ba;
+            text-decoration: none;
+            font-size: 1.5em;
+            width: 150px;
+            margin: 0 10px;
+            padding: 10px;
+            border: 1.5px solid #2c2a28;
+            border-radius: 5px;
+            transition: background-color 0.3s, box-shadow 0.3s, color 0.3s;
+            text-shadow: 2 5px 35px rgba(31, 27, 23, 0.8);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-link:hover {
+            background-color: #716e6c;
+            box-shadow: 0 0 10px rgb(255, 255, 255);
+            color: #ffffff;
+        }
+
+        .nav-link:nth-child(2) {
+            margin: 0 10px;
+        }
+
+        h1, p {
+            text-shadow: 0 5px 15px rgba(125, 32, 32, 0.8);
+        }
+
+        #solarFlareTitle {
+            font-size: 8vw;
+            margin: 50px 0 0;
+            z-index: 0;
+            color: #eadcd3;
+        }
+
+        .text-box {
+    text-align: center;
+    margin-top: -65px; /* Adjust the top margin as needed */
+    }
+
+    .text-box p {
+    margin-bottom: 20px; /* Adjust the bottom margin between paragraphs */
+    font-size: min(1.5vw);
+    font-weight: bold;
+    }
+
+        p {
+            font-size: 5vw;
+            margin: 60px;
+            color: #e6d2c5;
+        }
+
+        h1 {
+            font-size: 4vw;
+        }
+
+        #accuracy {
+    padding: 20px; /* Add padding to the accuracy tab content */
+}
+
+.button-container {
+    display: flex;
+    flex-direction: row;
+        justify-content: space-around;
+    }
+
+#randomButton1,
+    #randomButton2 {
+        font-family: 'Jura', sans-serif;
+        background-color: #5f5854;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        line-height: 2;
+        color: #e7dbd1;
+        text-decoration: none;
+        font-size: 1.5vw;
+        width: auto;
+        margin-top: 20px;
+        padding: 10px;
+        border: 1.5px solid #2c2a28;
+        border-radius: 5px;
+        transition: background-color 0.3s, box-shadow 0.3s, color 0.3s;
+        text-shadow: 2 5px 35px rgba(31, 27, 23, 0.8);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        display: inline-block;
+    }
+
+    #randomButton1:hover,
+    #randomButton2:hover {
+        background-color: #716e6c;
+        box-shadow: 0 0 10px rgb(255, 255, 255);
+        color: #ffffff;
+    }
+
+.image-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 0px; /* Adjust the top margin as needed */
+}
+
+.accuracy-image {
+    width: 32%; /* Adjust the width as needed */
+    margin-bottom: 20px; /* Adjust the bottom margin as needed */
+}
+    
+#toggleButton {
+        background-color: #5f5854;
+        font-family: 'Jura', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        line-height: 2;
+        color: #e7dbd1;
+        text-decoration: none;
+        font-size: 1.5vw;
+        width: auto;
+        margin-top: 20px;
+        padding: 10px;
+        border: 1.5px solid #2c2a28;
+        border-radius: 5px;
+        transition: background-color 0.3s, box-shadow 0.3s, color 0.3s;
+        text-shadow: 2 5px 35px rgba(31, 27, 23, 0.8);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    #toggleButton:hover {
+        background-color: #716e6c;
+        box-shadow: 0 0 10px rgb(255, 255, 255);
+        color: #ffffff;
+    }
+        .tab-content {
+            display: none;
+            z-index: 0;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 5%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('{{ url_for('static', filename='suvi.gif') }}');
+            background-size: contain;
+            background-position: center top;
+            background-repeat: no-repeat;
+            z-index: -1;
+        }
+
+        .credit {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            color: #ffffff;
+            font-size: 14px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        #data p {
+            font-size: 3vw;
+            margin: 50px;
+        }
+
+        #data a {
+            text-decoration: underline;
+            font-style: italic;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="navigation">
+            <a href="#" onclick="openTab('accuracy')" class="nav-link">Accuracy</a>
+            <a href="#" onclick="openTab('home')" class="nav-link">Prediction</a>
+            <a href="#" onclick="openTab('data')" class="nav-link">Data</a>
+        </div>
+    </div>
+
+    <h1 id="solarFlareTitle">Solar Flare Prediction</h1>
+    <p id="prediction">Time before expected flare: {{ flairTime }}</p>
+
+    <div id="randomButtonsContainer">
+        <button id="randomButton1" onclick="getRandomString(1)">Random 1</button>
+        <button id="randomButton2" onclick="getRandomString(2)">Random 2</button>
+    </div>
+
+    <div id="home" class="tab-content">
+    </div>
+
+    <div id="accuracy" class="tab-content">
+        <div id="imageContainer" class="image-container" style="display: none;">
+            <img src="/static/bluePlot.png" alt="Blue Plot" class="accuracy-image" id="bluePlotImage">
+            <img src="/static/redPlot.png" alt="Red Plot" class="accuracy-image" id="redPlotImage">
+            <img src="/static/mintPlot.png" alt="Mint Plot" class="accuracy-image" id="mintPlotImage">
+        </div>
+    
+        <div id="textBox" class="text-box">
+            <p><strong>Precision</strong>:    TL;DR - High precision means the model is "careful" in what it positively IDs."The precision is the ratio tp / (tp + fp) where tp is the number of true positives and fp the number of false positives. The precision is intuitively the ability of the classifier not to label as positive a sample that is negative. The best value is 1 and the worst value is 0." -SK Learn Docs
+                Here, we can see that LinearSVC is most consistently identifying both False and True values, meaning that when it IDs whether a flare will or will not occur, it is EXTREMELY accurate in that prediction. 
+                Meanwhile, other models (particularly the Naive Bayes Classifiers) are very likely to be right if they predict a solar flare isn't occuring, their guess at when one will occur is very weak.</p>
+            <p><strong>Recall</strong>:    TL;DR - High recall means the classifier hardly misses positive examples.
+                "The recall is the ratio tp / (tp + fn) where tp is the number of true positives and fn the number of false negatives. The recall is intuitively the ability of the classifier to find all the positive samples. The best value is 1 and the worst value is 0." -SK Learn Docs</p>
+            <p><strong>F1 Score</strong>:    TL;DR - This is the most well-rounded evaluation of a model's accuracy.
+                "The F1 score can be interpreted as a harmonic mean of the precision and recall, where an F1 score reaches its best value at 1 and worst score at 0. The relative contribution of precision and recall to the F1 score are equal. The formula for the F1 score is: F1 = 2 * TP / (2 * TP + FN + FP)" -SK Learn Docs
+                Here, we can see that the SVC has the highest F1-Score for both true and false values, meaning it is all-around the most performant model of the ones tested at identifying both when a solar flare will occur, as well as when it won't.</p>
+            <p><strong>THUS, THE SVC CLASSIFIER IS OUR PRIMARY CHOICE FOR DETECTING INCOMING SOLAR FLARES.</strong></p>
+        </div>
+        <button onclick="toggleImageContainer()" id="toggleButton">View Graphs</button>
+    </div>
+
+    <div id="data" class="tab-content">
+        <p>Data retrieved using the sunpy Python function, which pulls from a variety of private and governmental research organizations. Methodology for aggregating data from: Hollanda, A., da Silva, A. E. A., & Cinto, T. (2021). Data set for solar flare prediction. <span style="font-style: italic;">Zenodo.</span> <a href="https://doi.org/10.5281/zenodo.4603411" target="_blank"><u>https://doi.org/10.5281/zenodo.4603411</u></a>.</p>
+    </div>
+    
+    <div class="credit">
+        Credit: Logan Miller, Danielle Morris, Mallory Whitt
+    </div>
+
+    <img id="happySatelliteImage" class="satellite-image" src="/static/happySatellite.png" alt="Happy Satellite Image" style="display: none;">
+    <img id="sadSatelliteImage" class="satellite-image" src="/static/sadSatellite.png" alt="Sad Satellite Image" style="display: none;">
+    
+        
+    <script>
+        // Function to open a tab and toggle button visibility
+        function openTab(tabName) {
+            var i, tabContent;
+            tabContent = document.getElementsByClassName("tab-content");
+    
+            var predictionElement = document.getElementById("prediction");
+            var solarFlareElement = document.getElementById("solarFlareTitle");
+    
+            if (tabName === 'accuracy' || tabName === 'data') {
+                predictionElement.style.display = "none";
+                solarFlareElement.style.display = "none";
+                toggleButtonsVisibility(false);
+            } else {
+                predictionElement.style.display = "block";
+                solarFlareElement.style.display = "block";
+                toggleButtonsVisibility(true);
+            }
+    
+            for (i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = "none";
+            }
+    
+            document.getElementById(tabName).style.display = "block";
+        }
+    
+        // Function to toggle visibility of buttons based on the active tab
+        function toggleButtonsVisibility(showButtons) {
+            var randomButton1 = document.getElementById("randomButton1");
+            var randomButton2 = document.getElementById("randomButton2");
+    
+            // Toggle visibility of buttons based on the provided parameter
+            randomButton1.style.display = showButtons ? "block" : "none";
+            randomButton2.style.display = showButtons ? "block" : "none";
+        }
+    
+        function showSatelliteImage(imageId) {
+            var images = document.getElementsByClassName("satellite-image");
+            for (var i = 0; i < images.length; i++) {
+                images[i].style.display = "none";
+            }
+            document.getElementById(imageId).style.display = "block";
+        }
+    
+        function toggleImageContainer() {
+            var imageContainer = document.getElementById("imageContainer");
+            var textBox = document.getElementById("textBox");
+    
+            // Toggle visibility of image container and text box
+            if (imageContainer.style.display === "none") {
+                imageContainer.style.display = "flex";
+                textBox.style.display = "none";
+            } else {
+                imageContainer.style.display = "none";
+                textBox.style.display = "block";
+            }
+            var toggleButton = document.getElementById("toggleButton");
+            toggleButton.style.position = "fixed";
+            toggleButton.style.bottom = "20px"; /* Adjust the bottom position as needed */
+            toggleButton.style.left = "50%"; /* Center horizontally */
+            toggleButton.style.transform = "translateX(-50%)"; /* Center horizontally */
+        }
+    
+        function getRandomString(buttonNumber) {
+            var randomString;
+    
+            // Generate different random strings based on the button clicked
+            if (buttonNumber === 1) {
+                randomString = "This is Random String 1.";
+            } else if (buttonNumber === 2) {
+                randomString = "And here's Random String 2.";
+            }
+            alert(randomString);
+        }
+    
+        function updateTimeDifference() {
+            var flareTime = new Date("2024-02-15T12:00:00");
+            var currentTime = new Date();
+            var timeDifference = flareTime - currentTime;
+            var seconds = Math.floor(timeDifference / 1000);
+            var minutes = Math.floor(seconds / 60);
+            var hours = Math.floor(minutes / 60);
+            var days = Math.floor(hours / 24);
+            var years = Math.floor(days / 365);
+    
+            var displayText = "Time before expected flare:";
+    
+            if (years > 0) {
+                displayText += " " + years + (years === 1 ? " year," : " years,");
+            }
+            if (days > 0) {
+                displayText += " " + days + (days === 1 ? " day," : " days,");
+            }
+            if (hours > 0) {
+                displayText += " " + hours % 24 + " hours,";
+            }
+            if (minutes > 0) {
+                displayText += " " + minutes % 60 + " minutes,";
+            }
+            if (seconds > 0) {
+                displayText += " " + seconds % 60 + " seconds";
+            }
+    
+            document.getElementById("prediction").innerText = displayText;
+            return days; // Return days for use in updateSatelliteImage
+        }
+    
+        function updateSatelliteImage() {
+            var daysDifference = updateTimeDifference();
+            var thresholdDays = 5;
+    
+            if (daysDifference <= thresholdDays) {
+                showSatelliteImage("sadSatelliteImage");
+            } else {
+                showSatelliteImage("happySatelliteImage");
+            }
+        }
+    
+        // Function to initialize button visibility
+        function initializeButtonVisibility() {
+            toggleButtonsVisibility(true);
+        }
+    
+        // Initial visibility check when the page loads
+        initializeButtonVisibility();
+    
+        updateSatelliteImage();
+        setInterval(updateSatelliteImage, 1000);
+    </script>
+    
+</body>
+</html>
